@@ -1,0 +1,30 @@
+.App {
+  font-size: calc(10px + 2vmin);
+  width: 80%;
+  margin: 140px auto;
+  color: black;
+}
+fieldset {
+  margin-top: 32px;
+  margin-bottom: 64px;
+}
+pre {
+  color: white;
+  padding: 3px 8px;
+  background: #313131;
+  display: inline-block;
+  margin-left: 16px;
+  font-size: 12px;
+  float: right;
+}
+
+input {
+  padding: 3px;
+  height: 22px;
+  min-width: 230px;
+}
+label {
+  clear: both;
+  margin-top: 8px;
+  display: block;
+}

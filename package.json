@@ -1,0 +1,108 @@
+{
+  "name": "zustand-yjs",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Zustand Stores with Yjs",
+  "main": "index.cjs.js",
+  "module": "index.js",
+  "types": "index.d.ts",
+  "author": "Hadrien Froger",
+  "contributors": [],
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "zustand",
+    "yjs",
+    "store",
+    "reactive",
+    "crdt"
+  ],
+  "files": [
+    "**"
+  ],
+  "sideEffects": false,
+  "prettier": {
+    "semi": false,
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "jsxBracketSameLine": true,
+    "tabWidth": 2,
+    "printWidth": 80
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "prettier --write"
+    ]
+  },
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "rollup -c",
+    "postbuild": "yarn copy",
+    "eslint": "eslint --fix 'src/**/*.{js,ts,jsx}'",
+    "eslint-examples": "eslint --fix 'examples/src/**/*.{js,ts,jsx}'",
+    "eslint:ci": "eslint '{src,examples/src}/**/*.{js,ts,jsx}'",
+    "prepare": "c",
+    "pretest": "tsc --noEmit",
+    "test": "jest",
+    "test:dev": "jest --watch --no-coverage",
+    "test:coverage:watch": "jest --watch",
+    "copy": "rm -rf dist/{src,tests} && copyfiles -f package.json readme.md LICENSE dist && json -I -f dist/package.json -e \"this.private=false; this.devDependencies=undefined; this.optionalDependencies=undefined; this.scripts=undefined; this.husky=undefined; this.prettier=undefined; this.jest=undefined; this['lint-staged']=undefined;\""
+  },
+  "jest": {
+    "testRegex": "test.(js|ts)$",
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "html",
+      "text",
+      "text-summary"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts}",
+      "tests/**/*.{js,ts}"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-external-helpers": "^7.12.1",
+    "@babel/plugin-transform-react-jsx": "^7.12.12",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/plugin-transform-typescript": "^7.12.1",
+    "@babel/preset-env": "^7.12.11",
+    "@rollup/plugin-babel": "^5.2.2",
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "@testing-library/react": "^11.2.3",
+    "@types/jest": "^26.0.20",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.12.0",
+    "@typescript-eslint/parser": "^4.12.0",
+    "copyfiles": "^2.4.1",
+    "eslint": "^7.17.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^4.3.7",
+    "jest": "^26.6.0",
+    "json": "^10.0.0",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.36.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-size-snapshot": "^0.12.0",
+    "rollup-plugin-typescript2": "^0.29.0",
+    "typescript": "^4.1.3"
+  },
+  "dependencies": {
+    "yjs": "^13.4.12",
+    "zustand": "^3.3.1"
+  }
+}
