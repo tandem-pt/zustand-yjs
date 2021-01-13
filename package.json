@@ -41,7 +41,7 @@
     "eslint": "eslint --fix 'src/**/*.{js,ts,jsx}'",
     "eslint-examples": "eslint --fix 'examples/src/**/*.{js,ts,jsx}'",
     "eslint:ci": "eslint '{src,examples/src}/**/*.{js,ts,jsx}'",
-    "prepare": "c",
+    "prepare": "yarn build",
     "pretest": "tsc --noEmit",
     "test": "jest",
     "test:dev": "jest --watch --no-coverage",
