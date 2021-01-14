@@ -7,6 +7,10 @@
   "module": "./index.js",
   "types": "./index.d.ts",
   "author": "Hadrien Froger",
+  "homepage": "https://github.com/tandem-pt/zustand-yjs",
+  "bugs": {
+    "url": "https://github.com/tandem-pt/zustand-yjs/issues"
+  },
   "contributors": [],
   "license": "MIT",
   "keywords": [
