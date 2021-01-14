@@ -1,7 +1,7 @@
 {
   "name": "zustand-yjs",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Zustand Stores with Yjs",
   "main": "./index.cjs.js",
   "module": "./index.js",
