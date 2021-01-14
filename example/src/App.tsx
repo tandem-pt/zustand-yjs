@@ -115,7 +115,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <strong>
-          App <pre style={{ display: 'inline' }}>{AppRender++} re-render</pre>
+          Example{' '}
+          <pre style={{ display: 'inline' }}>{AppRender++} re-render</pre>
         </strong>
       </header>
       <fieldset>
