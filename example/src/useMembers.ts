@@ -1,4 +1,4 @@
-import ZustandYjs from 'zustand-yjs'
+import { createYArrayStore } from 'zustand-yjs'
 import * as Y from 'yjs'
 import mainDoc from './organizationDoc'
 type Members = {
@@ -9,4 +9,4 @@ const yArray = mainDoc.getArray('members')
 
 const memberCollection = yArray as Y.Array<Members>
 
-export default ZustandYjs.createYArrayStore(memberCollection)
+export default createYArrayStore(memberCollection)

@@ -1,6 +1,2 @@
-import  createYMapStore from './createYMapStore';
-import  createYArrayStore from './createYArrayStore';
-export default {
-    createYMapStore,
-    createYArrayStore
-}
+export {default as createYMapStore} from './createYMapStore';
+export {default as createYArrayStore} from './createYArrayStore';

@@ -1,4 +1,4 @@
-import ZustandYjs from 'zustand-yjs'
+import { createYMapStore } from 'zustand-yjs'
 import * as Y from 'yjs'
 import mainDoc from './organizationDoc'
 type OrganizationType = {
@@ -7,4 +7,4 @@ type OrganizationType = {
 }
 const orgY = mainDoc.getMap('organization') as Y.Map<OrganizationType>
 
-export default ZustandYjs.createYMapStore<OrganizationType>(orgY)
+export default createYMapStore<OrganizationType>(orgY)
