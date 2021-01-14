@@ -1,5 +1,5 @@
-import * as createYMapStore from './createYMapStore';
-import * as createYArrayStore from './createYArrayStore';
+import  createYMapStore from './createYMapStore';
+import  createYArrayStore from './createYArrayStore';
 export default {
     createYMapStore,
     createYArrayStore

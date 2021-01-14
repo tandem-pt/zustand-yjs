@@ -37,7 +37,11 @@ function createDeclarationConfig(input, output) {
       dir: output,
     },
     external,
-    plugins: [typescript()],
+    plugins: [
+      typescript({
+        tsconfigOverride: { compilerOptions: { declaration: true } },
+      }),
+    ],
   }
 }
 

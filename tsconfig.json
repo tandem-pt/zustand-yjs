@@ -5,9 +5,7 @@
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
-    "outDir": "./dist",
-    "declaration": true
+    "moduleResolution": "node"
   },
   "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules", "dist"]
