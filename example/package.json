@@ -18,7 +18,7 @@
     "y-webrtc": "^10.1.7",
     "yjs": "^13.4.7",
     "zustand": "^3.2.0",
-    "zustand-yjs": "^0.0.1"
+    "zustand-yjs": "file:../dist"
   },
   "scripts": {
     "start": "react-scripts start",
