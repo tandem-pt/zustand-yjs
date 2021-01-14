@@ -38,6 +38,8 @@ function createDeclarationConfig(input, output) {
     },
     external,
     plugins: [
+      peerDepsExternal(),
+
       typescript({
         tsconfigOverride: { compilerOptions: { declaration: true } },
       }),
