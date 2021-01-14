@@ -85,9 +85,22 @@ const Members = () => {
 }
 ```
 
+## Run the example
+
+1. Clone the Repository
+2. `cd example;yarn`
+3. `yarn start`
+
+The example doesn't mount any connector for Y.Doc (yet). So don't expect syncing.
+To do some sync, you can edit `example/src/organizationDoc.ts` and add some provider to the main document.
+
+- [y-websocket](https://github.com/yjs/y-websocket)
+- [y-webrtc](https://github.com/yjs/y-webrtc)
+- [y-indexeddb](https://github.com/yjs/y-indexeddb)
+
 ## Special Thanks
 
-- [Relm, svelt-yjs](https://github.com/relm-us/svelt-yjs/), this repo. started with this.
+- [Relm, svelt-yjs](https://github.com/relm-us/svelt-yjs/), the repo we started with, many thanks for publishing.
 - [YJS](https://github.com/yjs/yjs) – CRDT framework that deserve love and support
 - [Zustand](https://github.com/pmndrs/zustand) – A small, fast and scaleable bearbones state-management solution. Our build system is taken from there.
 
