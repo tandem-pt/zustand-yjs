@@ -1,138 +1,97 @@
 import React, { useState } from 'react'
 import './App.css'
-import useOrganization from './useOrganization'
-import useMembers from './useMembers'
+import * as Y from 'yjs'
+import { useYDoc, useYArray, useYMap } from 'zustand-yjs'
+
+const connectMembers = (doc: Y.Doc) => {
+  console.log('connect ', doc.guid)
+  return () => console.log('disconnect', doc.guid)
+}
+
+type Member = Y.Map<string>
+
+type EditMemberProps = { yMember: Member; handleDone: () => void }
+const EditMember = ({ yMember, handleDone }: EditMemberProps) => {
+  const { set, data } = useYMap<string, { username: string }>(yMember)
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        handleDone()
+      }}>
+      <input
+        type="text"
+        id="Member"
+        name="Member"
+        autoFocus
+        value={data.username}
+        style={{ width: 230, display: 'inline-block', marginRight: 8 }}
+        onChange={({ target }) => set('username', `${target.value}`)}
+      />
+      <button type="submit">done</button>
+    </form>
+  )
+}
+
 const Members = () => {
-  const members = useMembers((state) => state?.data)
+  const yDoc = useYDoc('root', connectMembers)
+  const [editionIndex, setEditionIndex] = useState<number>(-1)
+  const { data } = useYArray<Member>(yDoc.getArray('members'))
   return (
     <>
+      <code>
+        <pre>{JSON.stringify({ data }, undefined, 2)}</pre>
+      </code>
       <ul>
-        {members.map((member, index) => (
-          <li key={index}>
-            {'<'}
-            {member.username}
-            {'>'}
-            {member.email}
-          </li>
-        ))}
+        {data.map((yMember, index) => {
+          if (editionIndex === index)
+            return (
+              <li key={index}>
+                <EditMember
+                  yMember={yMember}
+                  handleDone={() => setEditionIndex(-1)}
+                />
+              </li>
+            )
+          return (
+            <li key={index} onClick={() => setEditionIndex(index)}>
+              {yMember.get('username')}
+            </li>
+          )
+        })}
       </ul>
-      <pre>{JSON.stringify(members)}</pre>
+      {data.length > 0 && (
+        <small>
+          <em>Click on the member you want to edit</em>
+        </small>
+      )}
     </>
   )
 }
-const AddRow = () => {
-  const push = useMembers((state) => state?.push)
-  const [newEmail, setNewEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [message, setMessage] = useState('')
 
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault && evt.preventDefault()
-    push([{ email: newEmail, username }])
-    setNewEmail('')
-    setUsername('')
-    setTimeout(() => setMessage(''), 1900)
-    return false
-  }
-  return (
-    <div>
-      <fieldset>
-        <legend>Add a member</legend>
-        <form onSubmit={handleSubmit}>
-          <label>Email</label>
-          <input
-            type="email"
-            onChange={({ target }) => setNewEmail('' + target.value)}
-            value={newEmail}
-          />
-          <label>Username</label>
-          <input
-            type="text"
-            onChange={({ target }) => setUsername('' + target.value)}
-            value={username}
-          />
-          <br />
-          <button type="submit" disabled={newEmail.length === 0}>
-            Add member
-          </button>
-          {message && (
-            <div style={{ border: '1px solid green', padding: 8, margin: 8 }}>
-              {message}
-            </div>
-          )}
-        </form>
-      </fieldset>
-    </div>
-  )
-}
-let nameRender = 0
-const Name = () => {
-  const name = useOrganization((state) => state?.data.name)
-  const set = useOrganization((state) => state?.set)
-  return (
-    <div>
-      <label>Last name </label>
-      <input
-        value={name}
-        onChange={({ target }) => set('name', '' + target.value)}
-      />{' '}
-      <pre style={{ display: 'inline' }}>{nameRender++} re-render</pre>{' '}
-    </div>
-  )
-}
-
-let firstnameRender = 0
-const FirstName = () => {
-  const name = useOrganization((state) => state?.data.firstName)
-  const set = useOrganization((state) => state?.set)
+const AddMember = () => {
+  const yDoc = useYDoc('root', connectMembers)
+  const { push, data } = useYArray<Member>(yDoc.getArray('members'))
 
   return (
-    <div>
-      <label>First name </label>
-      <input
-        value={name}
-        onChange={({ target }) => set('firstName', '' + target.value)}
-      />
-      <pre style={{ display: 'inline' }}>{firstnameRender++} re-render</pre>{' '}
-    </div>
+    <button
+      className="primary"
+      onClick={() => {
+        const newMember = new Y.Map<string>()
+        console.log('JohnDoe #' + data.length)
+        newMember.set('username', 'JohnDoe #' + data.length)
+        push([newMember])
+      }}>
+      New Member
+    </button>
   )
 }
-let fullNameRender = 0
-const FullName = () => {
-  const name = useOrganization((state) => state?.data.name)
-  const firstName = useOrganization((state) => state?.data.firstName)
-
-  return (
-    <div>
-      {name} {firstName} <pre>{fullNameRender++} re-render</pre> 
-    </div>
-  )
-}
-let AppRender = 0
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <strong>
-          Example{' '}
-          <pre style={{ display: 'inline' }}>{AppRender++} re-render</pre>
-        </strong>
-      </header>
-      <fieldset>
-        <legend>Y.Map manipulation</legend>
-        <Name />
-        <FirstName />
-        <p>
-          Result:
-          <FullName />
-        </p>
-      </fieldset>
-      <fieldset>
-        <legend>Y.Array manipulation</legend>
-        <AddRow />
-        <Members />
-      </fieldset>
+      <AddMember />
+      <Members />
     </div>
   )
 }

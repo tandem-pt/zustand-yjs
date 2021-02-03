@@ -1,3 +1,20 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Zustand-Yjs](#zustand-yjs)
+  - [Getting started](#getting-started)
+  - [API](#api)
+    - [`useYDoc(guid: string, connect: (doc: Y.Doc) => () => void)`](#useydocguid-string-connect-doc-ydoc----void)
+    - [`useYArray(doc: Y.Array)`](#useyarraydoc-yarray)
+    - [`useYMap(doc: Y.Array)`](#useymapdoc-yarray)
+  - [Run the example](#run-the-example)
+  - [Special Thanks](#special-thanks)
+  - [Roadmap](#roadmap)
+  - [License](#license)
+  - [Contribution](#contribution)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Zustand-Yjs
 
 > Disclaimer: This is a work in progress. Do not use this library in production,
@@ -14,76 +31,113 @@ Install yjs, zustand and zustand-yjs.
 yarn add zustand-yjs yjs zustand
 ```
 
-Create a `Y.Doc` that will sync.
+Create a `Y.Doc` that will sync through a connect function.
+You can connect there any `y-*` provider.
 
-```js
-const mainDoc = new Y.Doc()
-// Connect then this doc to the provider you want (y-webrtc, y-websocket, etc)
+```tsx
+import * as Y from 'yjs'
+import { useYDoc } from 'zustand-yjs'
+
+const connectDoc = (doc: Y.Doc) => {
+  console.log('connect to a provider with room', doc.guid)
+  return () => console.log('disconnect', doc.guid)
+}
+
+const App = () => {
+  const yDoc = useYDoc('myDocGuid', connectDoc)
+  return <div></div>
+}
 ```
 
 From this, doc you can then create some stores that will hold Y.Array or Y.Map references.
 
-```js
-import { createYArrayStore } from 'zustand-yjs'
+```tsx
 import * as Y from 'yjs'
-type Members = {
-  username?: string
-  email: string
+import { useYDoc } from 'zustand-yjs'
+
+const connectDoc = (doc: Y.Doc) => {
+  console.log('connect to a provider with room', doc.guid)
+  return () => console.log('disconnect', doc.guid)
 }
-const yArray = mainDoc.getArray('members')
-const memberCollection = yArray as Y.Array<Members>
-const store = createYArrayStore(memberCollection)
+
+const App = () => {
+  const yDoc = useYDoc('myDocGuid', connectDoc)
+  const { data, push } = useYArray<string>(yDoc.getArray('usernames'))
+  return (
+    <div>
+      <button onClick={() => push([`username #${data.length}`])}>
+        New Username
+      </button>
+      <ul>
+        {data.map((username, index) => (
+          <li key={index}>{username}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}
 ```
 
 Here you are, you have a reactive store!
 
-```jsx
-const MemberList = () => {
-  const members = store((state) => state.data)
-  return (
-    <ul>
-      {members.map(({ email }) => (
-        <li key={email}>{email}</li>
-      ))}
-    </ul>
-  )
-}
-```
+## API
 
-Here a complete gist:
+### `useYDoc(guid: string, connect: (doc: Y.Doc) => () => void)`
 
-```js
-import { createYArrayStore } from 'zustand-yjs'
-import * as Y from 'yjs'
-type Members = {
-  username?: string
-  email: string
-}
+**params**
 
-const mainDoc = Y.Doc();
-const yArray = mainDoc.getArray('members')
-const memberCollection = yArray as Y.Array<Members>
+- _`string`_ **guid**: The Y.Doc#guid
+- _`(doc: Y.Doc) => () => void)`_ connect: The connect function triggered on the first mount of the Y.Doc. Should return an unconnect function triggered on unmount.
+  - **params**
+    - _Y.Doc_ `doc`: The mounted doc, with a `Y.Doc#guid`
+  - **returns**
+    - _() => void_ : disconnect function that will be called on unmount.
 
-const useMembers = createYArrayStore(memberCollection);
+**returns**
 
-const Members = () => {
-  const members = useMembers((state) => state?.data)
-  return (
-    <table>
-        {members.map((member, index) => (
-          <tr key={index}>
-            <td>
-                {member.username}
-            </td>
-            <td>
-                {member.email}
-            </td>
-          </tr>
-        ))}
-    </table>
-  )
-}
-```
+- _`Y.Doc`_: The created Y.Doc
+
+---
+
+### `useYArray(doc: Y.Array)`
+
+**params**
+
+- _`Y.Array<T>`_ **doc**: A Y.Array to use inside your component
+
+**returns**
+
+- _`T[]`_ **data**: The current data of the Y.Array used
+- **forEach**: See Y.Array#forEach
+- **map**: See Y.Array#map
+- **slice**: See Y.Array#slice
+- **get**: See Y.Array#get
+- **delete**: See Y.Array#delete
+- **unshift**: See Y.Array#unshift
+- **push**: See Y.Array#push
+- **insert**: See Y.Array#insert
+
+---
+
+### `useYMap(doc: Y.Array)`
+
+**params**
+
+- _`Y.Map<T, U extends Record<string, T>>`_ **doc**: A Y.Map to use inside your component. `T` is the type of the record values, `U` is the type of the return data.
+
+**returns**
+
+- _`U`_ **data**: The current data of the Y.Map used
+- **set**: See Y.Map#set
+- **get**: See Y.Map#get
+- **has**: See Y.Map#has
+- **delete**: See Y.Map#delete
+- **forEach**: See Y.Map#forEach
+- **entries**: See Y.Map#entries
+- **values**: See Y.Map#values
+- **keys**: See Y.Map#keys
+
+---
 
 ## Run the example
 
@@ -108,8 +162,8 @@ To do some sync, you can edit `example/src/organizationDoc.ts` and add some prov
 
 1. Online demo
 2. Add test
-3. Support sub-documents
-4. Add helpers for YXMLFragment
+3. Support sub-documents (`useYSubDoc`?)
+4. Add hooks for YXMLFragment
 
 ## License
 

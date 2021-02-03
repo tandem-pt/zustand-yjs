@@ -16,5 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"]
+  "include": ["src", "../src/createYMapStore.tsx", "../src/createYArrayStore.tsx", "src/.ts"]
 }

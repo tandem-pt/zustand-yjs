@@ -10,18 +10,37 @@ fieldset {
 }
 pre {
   color: white;
-  padding: 3px 8px;
+  padding: 12px;
   background: #313131;
   display: inline-block;
   margin-left: 16px;
   font-size: 12px;
   float: right;
 }
-
+li {
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 0;
+}
+li:hover {
+  text-decoration: underline;
+}
 input {
   padding: 3px;
   height: 22px;
   min-width: 230px;
+}
+button {
+  padding: 8px 24px;
+  background: transparent;
+  border-width: 0;
+  cursor: pointer;
+  background: #313131;
+  color: white;
+  border-radius: 40px;
+}
+button.primary {
+  background: #3498db;
 }
 label {
   clear: both;
