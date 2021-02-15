@@ -1,7 +1,7 @@
 {
   "name": "zustand-yjs",
   "private": true,
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Zustand Stores with Yjs",
   "main": "./index.cjs.js",
   "module": "./index.js",
@@ -108,7 +108,7 @@
     "zustand": "^3.3.1"
   },
   "peerDependencies": {
-    "yjs": ">=13.4.12",
+    "yjs": ">=13.0.0",
     "zustand": ">=3.3.1"
   }
 }

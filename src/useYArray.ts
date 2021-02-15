@@ -17,8 +17,8 @@ const useYArray = <T>(yArray: Y.Array<T>): ArrayWrapper<T> => {
     if (!match) return []
     return match[1] as T[]
   }, [yArray, dataSet])
-  const noBinding = (funcKey: keyof Y.Array<T>) => {
-    throw new Error(`Y.Array#${funcKey} is undefined`)
+  const noBinding = (funcKey: keyof Y.Array<T>) => () => {
+    throw new Error(`Y.Array#${funcKey} is not implemented`)
   }
 
   return {
