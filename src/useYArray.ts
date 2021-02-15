@@ -17,15 +17,23 @@ const useYArray = <T>(yArray: Y.Array<T>): ArrayWrapper<T> => {
     if (!match) return []
     return match[1] as T[]
   }, [yArray, dataSet])
+  const noBinding = (funcKey: keyof Y.Array<T>) => {
+    throw new Error(`Y.Array#${funcKey} is undefined`)
+  }
+
   return {
-    forEach: yArray.forEach.bind(yArray),
-    map: yArray.map.bind(yArray),
-    slice: yArray.slice.bind(yArray),
-    get: yArray.get.bind(yArray),
-    delete: yArray.delete.bind(yArray),
-    unshift: yArray.unshift.bind(yArray),
-    push: yArray.push.bind(yArray),
-    insert: yArray.insert.bind(yArray),
+    forEach: yArray.forEach
+      ? yArray.forEach.bind(yArray)
+      : noBinding('forEach'),
+    map: yArray.map ? yArray.map.bind(yArray) : noBinding('map'),
+    slice: yArray.slice ? yArray.slice.bind(yArray) : noBinding('slice'),
+    get: yArray.get ? yArray.get.bind(yArray) : noBinding('get'),
+    delete: yArray.delete ? yArray.delete.bind(yArray) : noBinding('delete'),
+    unshift: yArray.unshift
+      ? yArray.unshift.bind(yArray)
+      : noBinding('unshift'),
+    push: yArray.push ? yArray.push.bind(yArray) : noBinding('push'),
+    insert: yArray.insert ? yArray.insert.bind(yArray) : noBinding('insert'),
     data,
   }
 }

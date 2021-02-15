@@ -31,8 +31,7 @@ Install yjs, zustand and zustand-yjs.
 yarn add zustand-yjs yjs zustand
 ```
 
-Create a `Y.Doc` that will sync through a connect function.
-You can connect there any `y-*` provider.
+Zustand-yjs manage a store of `Y.Doc`, allowing you to connect and disconnect easily.
 
 ```tsx
 import * as Y from 'yjs'
@@ -49,7 +48,7 @@ const App = () => {
 }
 ```
 
-From this, doc you can then create some stores that will hold Y.Array or Y.Map references.
+From this, you can use the docs with `Y.Array`, `Y.Map`. Other Y-types are coming.
 
 ```tsx
 import * as Y from 'yjs'
