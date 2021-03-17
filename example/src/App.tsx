@@ -2,17 +2,21 @@ import React, { useState } from 'react'
 import './App.css'
 import * as Y from 'yjs'
 import { useYDoc, useYArray, useYMap } from 'zustand-yjs'
-
-const connectMembers = (doc: Y.Doc) => {
-  console.log('connect ', doc.guid)
-  return () => console.log('disconnect', doc.guid)
+import { WebrtcProvider } from 'y-webrtc'
+const connectMembers = (yDoc: Y.Doc) => {
+  console.log('connect ', yDoc.guid)
+  const provider = new WebrtcProvider(yDoc.guid, yDoc)
+  return () => {
+    console.log('disconnect', yDoc.guid)
+    provider.destroy()
+  }
 }
 
 type Member = Y.Map<string>
 
 type EditMemberProps = { yMember: Member; handleDone: () => void }
 const EditMember = ({ yMember, handleDone }: EditMemberProps) => {
-  const { set, data } = useYMap<string, { username: string }>(yMember)
+  const { set, data } = useYMap<string | number, { username: string }>(yMember)
   return (
     <form
       onSubmit={(e) => {
@@ -33,6 +37,14 @@ const EditMember = ({ yMember, handleDone }: EditMemberProps) => {
   )
 }
 
+type MemberDetailProps = {
+  member: Member
+  onClick: () => void
+}
+const MemberDetail = ({ member, onClick }: MemberDetailProps) => {
+  const { get } = useYMap(member)
+  return <li onClick={onClick}>{get('username')}</li>
+}
 const Members = () => {
   const yDoc = useYDoc('root', connectMembers)
   const [editionIndex, setEditionIndex] = useState<number>(-1)
@@ -43,7 +55,7 @@ const Members = () => {
         <pre>{JSON.stringify({ data }, undefined, 2)}</pre>
       </code>
       <ul>
-        {data.map((yMember, index) => {
+        {data.map((yMember: Member, index: number) => {
           if (editionIndex === index)
             return (
               <li key={index}>
@@ -54,9 +66,11 @@ const Members = () => {
               </li>
             )
           return (
-            <li key={index} onClick={() => setEditionIndex(index)}>
-              {yMember.get('username')}
-            </li>
+            <MemberDetail
+              member={yMember}
+              key={index}
+              onClick={() => setEditionIndex(index)}
+            />
           )
         })}
       </ul>
