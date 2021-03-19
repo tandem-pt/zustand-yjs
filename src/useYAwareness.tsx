@@ -11,9 +11,9 @@ const useYAwareness = <T extends Record<string, unknown>>(yDoc: Y.Doc): [Awarene
     ));
     if(matches.length === 0) return [[], () => { console.error('Awareness not registered. Use startAwareness method from your YDoc connect function.')}];
     const [_docGuid, awareness, changes] = matches[0];
-    return [changes as T[], (newState: T) => { 
+    return [changes as T[], (newState: Partial<T>) => { 
         const previousState = awareness.getLocalState() as T;
-        awareness.setLocalState({...previousState, newState})
+        awareness.setLocalState({...previousState, ...newState})
     }] ;
 }
 

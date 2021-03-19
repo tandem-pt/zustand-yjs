@@ -38,4 +38,4 @@ export type YStore = {
 }
 
 export type AwarenessData<T> = T[]
-export type AwarenessSetData<T> = (newState: T) => void
+export type AwarenessSetData<T> = (newState: Partial<T>) => void
