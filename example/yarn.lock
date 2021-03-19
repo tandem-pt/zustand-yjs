@@ -11619,8 +11619,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-"zustand-yjs@file:../dist":
-  version "0.0.8"
+zustand-yjs@0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/zustand-yjs/-/zustand-yjs-0.0.9.tgz#102e8ed1c819d4a0e0bb5f0742ac9e473f892004"
+  integrity sha512-MOjbwJ7xNAWl2+Uc0c0Iswdr8x6phBA0wxPKSeulNU0rxO0Tv2p6+cVGgx1A6tiqwTC0IZrfsF0k6zQZA5jwCw==
 
 zustand@^3.3.1:
   version "3.3.3"
