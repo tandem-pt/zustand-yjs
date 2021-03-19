@@ -9,22 +9,32 @@ import {
   useYAwareness,
 } from 'zustand-yjs'
 import { WebrtcProvider } from 'y-webrtc'
-const colors = [
-  '#DAF7A6',
-  '#FF5733',
-  '#8E44AD',
-  '#5499C7',
-  '#D35400',
-  '#1C2833',
-  '#943126',
-  '#943126',
-]
+function rainbow(step: number, numOfSteps = 1000) {
+  // This function generates vibrant, "evenly spaced" colours (i.e. no clustering). This is ideal for creating easily distinguishable vibrant markers in Google Maps and other apps.
+  // Adam Cole, 2011-Sept-14
+  // HSV to RBG adapted from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+  let r = 0, g = 0, b = 0;
+  let h = step / numOfSteps;
+  let i = ~~(h * 6);
+  let f = h * 6 - i;
+  let q = 1 - f;
+  switch(i % 6){
+      case 0: r = 1; g = f; b = 0; break;
+      case 1: r = q; g = 1; b = 0; break;
+      case 2: r = 0; g = 1; b = f; break;
+      case 3: r = 0; g = q; b = 1; break;
+      case 4: r = f; g = 0; b = 1; break;
+      case 5: r = 1; g = 0; b = q; break;
+  }
+  var c = "#" + ("00" + (~ ~(r * 255)).toString(16)).slice(-2) + ("00" + (~ ~(g * 255)).toString(16)).slice(-2) + ("00" + (~ ~(b * 255)).toString(16)).slice(-2);
+  return (c);
+}
 
 const ID = +new Date()
 type AwarenessState = {
   ID: number
   color: string
-  elementIndex: number
+  elementIndex: number | null
 }
 const connectMembers = (
   yDoc: Y.Doc,
@@ -34,7 +44,7 @@ const connectMembers = (
   const provider = new WebrtcProvider(yDoc.guid, yDoc)
   provider.awareness.setLocalState({
     ID,
-    color: colors[ID % (colors.length - 1)],
+    color: rainbow(ID % 999),
     elementIndex: null,
   })
   const stopAwareness = startAwareness(provider)
@@ -49,6 +59,23 @@ type Member = Y.Map<string>
 type AwarenessProps = {
   yDoc: Y.Doc
   elementIndex?: number
+}
+
+type AwarenessChipProps = {
+  color: string;
+}
+const AwarenessChip = ({color}: AwarenessChipProps) => {
+  return <span
+  style={{
+    background: color,
+    border: '2px solid #313131',
+    borderRadius: '50%',
+    display: 'inline-block',
+    margin: '0 2px',
+    minHeight: '8px',
+    minWidth: '8px',
+  }}
+  ></span>
 }
 const Awareness = ({ yDoc, elementIndex }: AwarenessProps) => {
   const [awarenessData] = useYAwareness<AwarenessState>(yDoc)
@@ -65,17 +92,9 @@ const Awareness = ({ yDoc, elementIndex }: AwarenessProps) => {
     <>
       {colors.map((color, index) => {
         return (
-          <span
-            style={{
-              background: color,
-              border: '2px solid #313131',
-              borderRadius: '50%',
-              display: 'inline-block',
-              margin: '0 2px',
-              minHeight: '8px',
-              minWidth: '8px',
-            }}
-            key={index}></span>
+          <AwarenessChip
+          color={color}
+            key={index} />
         )
       })}
     </>
@@ -89,9 +108,12 @@ type EditMemberProps = {
 }
 const EditMember = ({ yDoc, yMember, index, handleDone }: EditMemberProps) => {
   const { set, data } = useYMap<string | number, { username: string }>(yMember)
-  const [_awarenessData, setAwarenessData] = useYAwareness<AwarenessState>(yDoc)
+  const [, setAwarenessData] = useYAwareness<AwarenessState>(yDoc)
   useEffect(() => {
     setAwarenessData({ elementIndex: index })
+    return () => {
+      setAwarenessData({ elementIndex: null })
+    }
   }, [index, setAwarenessData])
   return (
     <form
@@ -135,11 +157,12 @@ const Members = () => {
   const { data, delete: deleteItem } = useYArray<Member>(
     yDoc.getArray('members')
   )
+  const [awarenessData] = useYAwareness<AwarenessState>(yDoc)
+  const me = awarenessData.find(({ID: userId}) => userId === ID)
+
   return (
     <>
-      <code>
-        <pre>{JSON.stringify({ data }, undefined, 2)}</pre>
-      </code>
+     {me && <div style={{color: me.color, textAlign: 'right'}}><AwarenessChip color={me.color} /> you are connected</div> }
       <ul>
         {data.map((yMember: Member, index: number) => {
           if (editionIndex === index)
