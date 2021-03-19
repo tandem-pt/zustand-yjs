@@ -1,5 +1,6 @@
 import * as Y from 'yjs'
-import useYStore, { MountFunction, YDocEnum } from './useYStore'
+import useYStore from './useYStore'
+import { MountFunction, YDocEnum } from './types'
 import shallow from 'zustand/shallow'
 import { useEffect, useMemo } from 'react'
 

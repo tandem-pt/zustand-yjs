@@ -1,37 +1,27 @@
 import { useCallback } from 'react'
-import * as Y from 'yjs'
 import create from 'zustand'
-
-type ObserveFunc = (arg0: any, arg1: Y.Transaction) => void
-type UnMountFunction = () => void | void
-export type MountFunction = (doc: Y.Doc) => UnMountFunction
-
-export enum YDocEnum {
-  GUID = 0,
-  DOC = 1,
-  MOUNT = 2,
-  UN_MOUNT = 3,
-  USE_CNT = 4,
-}
-export enum ObserveEnum {
-  TYPE = 0,
-  OBSERVE = 1,
-  USE_CNT = 2,
-}
-type YStore = {
-  yDocs: [string, Y.Doc, MountFunction, UnMountFunction, number][] // guid, doc, connect function, unmount function, mounted uses
-  observers: [Y.AbstractType<any>, ObserveFunc, number][] // type, observer, mounted uses
-  data: [Y.AbstractType<any>, any][] // type, data
-  listenType(type: Y.AbstractType<any>, listen: ObserveFunc): void
-  unListenType(type: Y.AbstractType<any>): void
-  unMountYDoc(yDoc: Y.Doc): void
-  mountYDoc(yDoc: Y.Doc, mount: MountFunction): void
-  update(type: Y.AbstractType<any>, data: any): void
+import { StartAwarenessFunction, YStore, YDocEnum, ObserveEnum } from './types'
+import * as YProtocols from 'y-protocols'
+const newStartAwareness: (
+  setAwareness: (provider: typeof YProtocols, changes: unknown[]) => void
+) => StartAwarenessFunction = (setAwareness) => {
+  const startAwareness: StartAwarenessFunction = (provider) => {
+    const awareness = provider.awareness
+    const updateAwareness = () => {
+      setAwareness(provider, Array.from(awareness.getStates().values()))
+    }
+    awareness.on('update', updateAwareness)
+    return () => {
+      awareness.off('update', updateAwareness)
+    }
+  }
+  return startAwareness
 }
 
 const useYStore = create<YStore>((set, get) => {
   return {
     yDocs: [],
+    yAwareness: [],
     observers: [],
     data: [],
     update(type, data) {
@@ -90,6 +80,7 @@ const useYStore = create<YStore>((set, get) => {
     },
     unMountYDoc(yDoc) {
       const yDocs = get().yDocs
+      const yAwareness = get().yAwareness
       const match = yDocs.find(([, doc]) => doc === yDoc)
       if (!match) {
         console.warn('Can not unmount doc ', yDoc.guid, ' . Doc not found')
@@ -112,11 +103,15 @@ const useYStore = create<YStore>((set, get) => {
       } else {
         const unMount = match[YDocEnum.UN_MOUNT]
         if (unMount) unMount()
-        set({ yDocs: yDocs.filter((yDoc) => yDoc !== match) })
+        set({
+          yDocs: yDocs.filter((yDoc) => yDoc !== match),
+          yAwareness: yAwareness.filter(([yDocName]) => yDocName !== match[0]),
+        })
       }
     },
     mountYDoc(yDoc, mount) {
       const yDocs = get().yDocs
+      const yAwareness = get().yAwareness
       const match = yDocs.find(([name]) => name === yDoc.guid)
       if (match) {
         if (match[YDocEnum.MOUNT] !== mount) {
@@ -131,7 +126,17 @@ const useYStore = create<YStore>((set, get) => {
           yDocs: [...yDocs.filter(([name]) => name !== yDoc.guid), match],
         })
       } else {
-        const unMount = mount(yDoc)
+        const unMount = mount(
+          yDoc,
+          newStartAwareness((protocol, changes) => {
+            set({
+              yAwareness: [
+                ...yAwareness,
+                [yDoc.guid, protocol.awareness, changes],
+              ],
+            })
+          })
+        )
         set({ yDocs: [...yDocs, [yDoc.guid, yDoc, mount, unMount, 1]] })
       }
     },
