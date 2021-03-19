@@ -53,9 +53,9 @@ type AwarenessProps = {
 const Awareness = ({ yDoc, elementIndex }: AwarenessProps) => {
   const [awarenessData] = useYAwareness<AwarenessState>(yDoc)
   const colors = useMemo<string[]>(() => {
-    if (elementIndex) {
+    if (elementIndex !== null) {
       return awarenessData
-        .filter((state) => state?.ID && state?.ID !== ID)
+        .filter((state) => state?.ID && state.elementIndex === elementIndex)
         .map(({ color }) => color)
     }
     return awarenessData.filter(({ ID }) => !!ID).map(({ color }) => color)
@@ -89,13 +89,10 @@ type EditMemberProps = {
 }
 const EditMember = ({ yDoc, yMember, index, handleDone }: EditMemberProps) => {
   const { set, data } = useYMap<string | number, { username: string }>(yMember)
-  const [awarenessData, setAwarenessData] = useYAwareness<AwarenessState>(yDoc)
+  const [_awarenessData, setAwarenessData] = useYAwareness<AwarenessState>(yDoc)
   useEffect(() => {
-    const me = awarenessData.find((state) => state.ID === ID) as AwarenessState
-    if (me?.elementIndex !== index) {
-      setAwarenessData({ ...me, elementIndex: index })
-    }
-  }, [index])
+    setAwarenessData({ elementIndex: index })
+  }, [index, setAwarenessData])
   return (
     <form
       style={{ display: 'inline-block' }}
