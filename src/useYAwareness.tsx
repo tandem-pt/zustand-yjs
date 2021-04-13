@@ -22,7 +22,7 @@ const useYAwareness = <T extends Record<string, unknown>>(yDoc: Y.Doc): [Awarene
         const previousState = awareness.getLocalState() as T;
         awareness.setLocalState({...previousState, ...newState})
 
-    }, [])
+    }, [awareness])
     return [awarenessData, awarenessSetData] ;
 }
 
