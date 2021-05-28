@@ -10,6 +10,9 @@ const newStartAwareness: (
     const updateAwareness = () => {
       setAwareness(provider, Array.from(awareness.getStates().values()))
     }
+
+    updateAwareness()
+
     awareness.on('update', updateAwareness)
     return () => {
       awareness.off('update', updateAwareness)
@@ -117,7 +120,7 @@ const useYStore = create<YStore>((set, get) => {
         if (match[YDocEnum.MOUNT] !== mount) {
           console.warn(
             'A different connection function was already provided for ',
-            name,
+            match[YDocEnum.GUID],
             '. This unMount function will be ignored'
           )
         }
