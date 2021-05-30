@@ -1,8 +1,12 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 
 - [Zustand-Yjs](#zustand-yjs)
   - [Getting started](#getting-started)
@@ -15,6 +19,7 @@
   - [Roadmap](#roadmap)
   - [License](#license)
   - [Contribution](#contribution)
+  - [Contributors ✨](#contributors-)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -166,13 +171,13 @@ To do some sync, you can edit `example/src/organizationDoc.ts` and add some prov
 1. Online demo
 2. Add tests
 
-## Contribution
-
-See the [CONTRIBUTE](CONTRIBUTING.md) file for contribution guidelines
-
 ## License
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
+
+## Contribution
+
+See the [CONTRIBUTE](CONTRIBUTING.md) file for contribution guidelines
 
 ## Contributors ✨
 
