@@ -33,6 +33,18 @@
         "ideas",
         "review"
       ]
+    },
+    {
+      "login": "froger",
+      "name": "hfroger",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3929108?v=4",
+      "profile": "https://github.com/froger",
+      "contributions": [
+        "ideas",
+        "review",
+        "code",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
