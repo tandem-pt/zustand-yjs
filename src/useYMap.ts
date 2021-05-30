@@ -21,7 +21,7 @@ const useYMap = <T, U extends Record<string, T>>(
     return match[1]
   }, [yMap, dataSet]) as U
   const noBinding = (funcKey: keyof Y.Map<T>) => () => {
-    throw new Error(`Y.Map#${funcKey} is not implemented`)
+    throw new Error(`Y.Map#${funcKey.toString()} is not implemented`)
   }
   return {
     keys: yMap.keys ? yMap.keys.bind(yMap) : noBinding('keys'),
