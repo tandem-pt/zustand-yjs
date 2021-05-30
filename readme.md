@@ -141,8 +141,9 @@ Here you are, you have a reactive store!
 ## Run the example
 
 1. Clone the Repository
-2. `cd example;yarn`
-3. `yarn start`
+2. `yarn install`
+3. `cd example; yarn`
+4. `yarn start`
 
 The example doesn't mount any connector for Y.Doc (yet). So don't expect syncing.
 To do some sync, you can edit `example/src/organizationDoc.ts` and add some provider to the main document.
@@ -160,14 +161,12 @@ To do some sync, you can edit `example/src/organizationDoc.ts` and add some prov
 ## Roadmap
 
 1. Online demo
-2. Add test
-3. Support sub-documents (`useYSubDoc`?)
-4. Add hooks for YXMLFragment
-
-## License
-
-See the [CONTRIBUTE](CONTRIBUTE.md) file for contribution guidelines
+2. Add tests
 
 ## Contribution
+
+See the [CONTRIBUTE](CONTRIBUTING.md) file for contribution guidelines
+
+## License
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
