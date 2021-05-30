@@ -23,6 +23,16 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "NGimbal",
+      "name": "Nicolas Schmidt",
+      "avatar_url": "https://avatars.githubusercontent.com/u/34066664?v=4",
+      "profile": "http://www.alignaec.com",
+      "contributions": [
+        "ideas",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
