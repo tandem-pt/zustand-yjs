@@ -13,6 +13,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "neftaly",
+      "name": "Neftaly Hernandez",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1147806?v=4",
+      "profile": "https://neftaly.com/",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
