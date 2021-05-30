@@ -1,3 +1,13 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Contributing](#contributing)
+- [Keep in mind](#keep-in-mind)
+- [Contribution labels](#contribution-labels)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Contributing
 
 We use https://allcontributors.org/ to recognize All Contributors. To add contributors to the table, write something in your PR or commit messages:
@@ -12,7 +22,7 @@ We use https://allcontributors.org/ to recognize All Contributors. To add contri
 - We haven't release a stable release yet, breaking changes are completely OK.
 - The maintainer have a job&a kid. He will do his best to maintain the lib. If you want to co-maintain the repo, you are welcome.
 
-## Contribution labels
+# Contribution labels
 
 > To have a contribution added when using the [Bot](https://allcontributors.org/docs/en/bot/overview) or [CLI](https://allcontributors.org/docs/en/cli/overview) use the keyword in the `Type` column. The bot will also use [basic Natural Language Parsing](https://github.com/all-contributors/app/blob/master/lib/parse-comment.js) to determine your contribution intent.
 
