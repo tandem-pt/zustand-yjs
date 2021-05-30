@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "felipenovaes",
+      "name": "felipenovaes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8993062?v=4",
+      "profile": "https://github.com/felipenovaes",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "zustand-yjs",
+  "projectOwner": "tandem-pt",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
