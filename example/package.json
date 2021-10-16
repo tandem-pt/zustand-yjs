@@ -17,8 +17,8 @@
     "y-protocols": "^1.0.4",
     "y-webrtc": "^10.1.8",
     "yjs": "file:../node_modules/yjs",
-    "zustand": "^3.3.1",
-    "zustand-yjs": "^0.0.13"
+    "zustand": "^3.5.13",
+    "zustand-yjs": "file:../dist"
   },
   "scripts": {
     "start": "react-scripts start",
