@@ -16,11 +16,11 @@ const useYDoc = (name: string, mount: MountFunction) => {
     yDoc.guid = name
     mountYDoc(yDoc, mount)
     return yDoc
-  }, [yDocs])
+  }, [yDocs, name])
 
   useEffect(() => {
     return () => unMountYDoc(yDoc)
-  }, [unMountYDoc])
+  }, [unMountYDoc, name])
   return yDoc
 }
 
